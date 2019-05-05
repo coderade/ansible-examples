@@ -1,0 +1,19 @@
+---
+- name: Deploy
+  hosts: web
+  serial: 1
+
+  tasks:
+    - name: disable node
+      debug:
+        msg: 'disabling {{ inventory_hostname }}'
+      delegate_to: "{{groups['lb'][0]}}"
+
+    - name: updgrade git
+      debug:
+        msg: 'upgrading git'
+    
+    - name: enable node
+      debug:
+        msg: 'enabling {{ inventory_hostname }}'
+      delegate_to: "{{groups['lb'][0]}}"
