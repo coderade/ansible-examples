@@ -1,5 +1,5 @@
 ---
-- name: 'Do a demo'
+- name: 'Do a demo 1'
   hosts: groupA
 
   tasks:
@@ -11,7 +11,7 @@
         debug:
             msg: 'this is task 2'
 
-- name: 'Do another demo'
+- name: 'Do another demo 1'
   hosts: groupB
   
   tasks:
@@ -22,3 +22,34 @@
       - name: demo task 4
         debug:
             msg: 'this is task 4' 
+
+# handling and adding controled fails            
+- name: 'Do another demo 2'
+  hosts: groupC
+  
+  tasks:
+      - name: demo task 5
+        fail:
+            msg: 'this is task 5'
+        # two of the hosts will be skipped, and host2 gets the failure.
+        when: inventory_hostname == "host7"
+            
+      - name: demo task 6
+        debug:
+            msg: 'this is task 6' 
+
+# handling and adding controled fails using the serial keyword           
+- name: 'Do another demo 3'
+  hosts: groupD
+  serial: 1
+  
+  tasks:
+      - name: demo task 7
+        fail:
+            msg: 'this is task 7'
+            # two of the hosts are skipped, and host2 gets the failure.
+        when: inventory_hostname == "host11"
+            
+      - name: demo task 8
+        debug:
+            msg: 'this is task 8' 

@@ -8,5 +8,15 @@ host4
 host5
 host6
 
+[groupC]
+host7
+host8
+host9
+
+[groupD]
+host10
+host11
+host12
+
 [all:vars]
 ansible_connection=local
