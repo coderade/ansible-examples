@@ -1,0 +1,27 @@
+---
+- name: Configure web app
+  hosts: web
+  vars: 
+    repo: https://github.com/coderade/ansible-examples.git
+    version: 1
+
+  tasks:
+      - name: install nginx
+        debug:
+            msg: 'pacman install nginx'
+
+      - name: ensure web directory
+        debug:
+            msg: 'mkdir /webapp'
+
+      - name: get content
+        debug:
+            msg: 'git clone --branch {{version}} {{repo}} /webapp'
+
+      - name: nginx config
+        debug:
+            msg: 'put nginx config in place'
+
+      - name: ensure nginx running
+        debug:
+            msg: service nginx start'
