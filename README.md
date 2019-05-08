@@ -9,7 +9,7 @@ To run these examples will need to have the ansible tool installed. To install p
 
 - [Simple Ansible playbooks](#simple-ansible-playbooks)
     - [Playbook file](playbooks/playbook-demo.yml)
-    - [Inventory](inventories/hosts)
+    - [Inventory file](inventories/hosts)
 
 
 ## Simple Ansible playbooks
@@ -174,3 +174,38 @@ If everything works properly each play is displayed on screen and as each host c
     host8                      : ok=2    changed=0    unreachable=0    failed=0   
     host9                      : ok=2    changed=0    unreachable=0    failed=0   
 
+## Ad hoc examples
+
+Examples of ad hoc taks
+
+### Run a command in each host of an inventory
+
+The bellow examples show how to run a command in each host of an inventory. In this example the command is asking the ansible and the Linux versions:
+
+    ansible -i inventories/webapp-inventory web -m command -a "ansible --version"
+
+    ansible -i inventories/webapp-inventory host1 -m command -a "uname -r"
+
+### Debug message
+
+This example shows how to run a debug message in each item of an inventory:
+
+    ansible -i inventories/webapp-inventory web -m debug -a "msg='shutdown -r now'" 
+
+### Instaling some packages on the hosts
+
+This example shows how to install a linux module using the apt Ansible's module.
+
+    ansible -i inventories/webapp-inventory web -m apt -a "name=python-selinux state=present" -f 1 -b
+
+`-f 1` => forks limit to 1 (maximum number of concurret hosts)
+`-b` => privilege escalation (run as sudo)
+
+### Copying files to hosts example
+
+This example shows how to copy files using the copy module:
+
+    ansible -i inventories/webapp-inventory web -m copy -a "src=.keep dest=/tmp/.keep"
+
+
+    ansible -i inventories/webapp-inventory host1 -m command -a "uname -r"
